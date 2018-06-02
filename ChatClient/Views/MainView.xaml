@@ -21,14 +21,27 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Height="30" VerticalAlignment="Top" Margin="5px" Command="{Binding ConnectCommand}" Content="{Binding ButtonContent, UpdateSourceTrigger=PropertyChanged}">
-           
-        </Button>
+        <Button Height="30" VerticalAlignment="Top" Margin="5px" Command="{Binding ConnectCommand}" 
+                Content="{Binding ButtonContent, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="Top" Margin="5px" Text="User name"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="Top" Margin="5px" Text="{Binding UserName}">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
 
-        <ListBox Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="5px"/>
+        <ListBox Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="5px" ItemsSource="{Binding Messages}"/>
 
-        <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Height="30" Margin="5px"/>
+        <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Height="30" Margin="5px" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding SendMessageCommand}"/>
+            </TextBox.InputBindings>
+        </TextBox>
     </Grid>
 </Window>
